@@ -1,4 +1,4 @@
-package com.robertotru.stringformat;
+package com.robertotru.textresolver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,13 +7,13 @@ import java.util.Map;
  * Formatter for strings based on the well known {@code {}} placeholder.
  * This class is meant to be used as alternative to {@link String#format(String, Object...)}.
  */
-public class StringFormatter {
+public class TextResolver {
 
 	private static final String PLACEHOLDER = "{}";
 	private static final char ESCAPE_CHAR = '\\';
 
 	/**
-	 * Formats a message pattern by replacing the instances of {@code {}} with the {@link #toString()} value of each
+	 * Formats a Message template by replacing the instances of {@code {}} with the {@link #toString()} value of each
 	 * given argument. Escaping of the placeholder string {@code {}} is obtained via {@code \\}.
 	 * If the number of arguments exceed the number of placeholders, an exception is thrown.
 	 * Examples:
@@ -23,57 +23,57 @@ public class StringFormatter {
 	 *     <li>{@code format("Hello \\\\{} world", "fantastic")} returns {@code "Hello ||fantastic world"}</li>
 	 * </ul>>
 	 *
-	 * @param messagePattern
+	 * @param messageTemplate
 	 * @param arguments
 	 * @return
 	 */
-	public static String format(final String messagePattern, final Object... arguments) {
-		return formatAsCharSequence(messagePattern, arguments).toString();
+	public static String resolve(final String messageTemplate, final Object... arguments) {
+		return resolveAsCharSequence(messageTemplate, arguments).toString();
 	}
 
-	public static CharSequence formatAsCharSequence(final String messagePattern, final Object... arguments) {
-		if (messagePattern == null) {
-			throw new IllegalArgumentException("Message pattern cannot be null.");
+	public static CharSequence resolveAsCharSequence(final String messageTemplate, final Object... arguments) {
+		if (messageTemplate == null) {
+			throw new IllegalArgumentException("Message template cannot be null.");
 		}
 		if (arguments == null) {
 			throw new IllegalArgumentException("Array of arguments cannot be null.");
 		}
 
 		final int numberOfArguments = arguments.length;
-		final StringBuilder stringBuilder = new StringBuilder(messagePattern.length() + numberOfArguments * 7);
+		final StringBuilder stringBuilder = new StringBuilder(messageTemplate.length() + numberOfArguments * 7);
 
 		int startSearchIndex = 0;
 		int delimiterStartIndex;
 		int argumentNumber = 0;
 		do {
-			delimiterStartIndex = messagePattern.indexOf(PLACEHOLDER, startSearchIndex);
+			delimiterStartIndex = messageTemplate.indexOf(PLACEHOLDER, startSearchIndex);
 
 			if (delimiterStartIndex == -1) {
 				//<editor-fold desc="There are no more {} to be replaced">
 				if (startSearchIndex == 0) {
-					// oh, message pattern was just a message
+					// oh, Message template was just a message
 					checkUsedArguments(argumentNumber, numberOfArguments);
 				}
 				//</editor-fold>
 			} else {
 				if (delimiterStartIndex == 0
-						|| messagePattern.charAt(delimiterStartIndex - 1) != ESCAPE_CHAR) {
+						|| messageTemplate.charAt(delimiterStartIndex - 1) != ESCAPE_CHAR) {
 					// the placeholder is not escaped
-					stringBuilder.append(messagePattern, startSearchIndex, delimiterStartIndex);
+					stringBuilder.append(messageTemplate, startSearchIndex, delimiterStartIndex);
 					checkArgumentExists(argumentNumber, numberOfArguments);
 					appendParameter(stringBuilder, arguments[argumentNumber++]);
 					startSearchIndex = delimiterStartIndex + 2;
 				} else {
 					// the placeholder is escaped
-					if (delimiterStartIndex >= 2 && messagePattern.charAt(delimiterStartIndex - 2) == ESCAPE_CHAR) {
+					if (delimiterStartIndex >= 2 && messageTemplate.charAt(delimiterStartIndex - 2) == ESCAPE_CHAR) {
 						// double escaped
-						stringBuilder.append(messagePattern, startSearchIndex, delimiterStartIndex - 1);
+						stringBuilder.append(messageTemplate, startSearchIndex, delimiterStartIndex - 1);
 						checkArgumentExists(argumentNumber, numberOfArguments);
 						appendParameter(stringBuilder, arguments[argumentNumber++]);
 					} else {
 						// is escaped, so we just replace the \{} with {}
-						stringBuilder.append(messagePattern, startSearchIndex, delimiterStartIndex - 1);
-						stringBuilder.append(messagePattern, delimiterStartIndex, delimiterStartIndex + 2);
+						stringBuilder.append(messageTemplate, startSearchIndex, delimiterStartIndex - 1);
+						stringBuilder.append(messageTemplate, delimiterStartIndex, delimiterStartIndex + 2);
 					}
 					startSearchIndex = delimiterStartIndex + 2;
 				}
@@ -86,7 +86,7 @@ public class StringFormatter {
 		checkUsedArguments(argumentNumber, numberOfArguments);
 
 		// append the characters following the last {} pair.
-		stringBuilder.append(messagePattern, startSearchIndex, messagePattern.length());
+		stringBuilder.append(messageTemplate, startSearchIndex, messageTemplate.length());
 		return stringBuilder;
 	}
 

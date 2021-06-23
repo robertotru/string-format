@@ -1,11 +1,11 @@
-package com.robertotru.stringformat;
+package com.robertotru.textresolver;
 
 
 import java.util.Date;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class StringFormatterTest {
+class TextResolverTest {
 
 	//<editor-fold desc="Preconditions">
 
@@ -17,19 +17,19 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1)
+				TextResolver.resolve(messagePattern, arg1)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1)
 		);
 
 		// Then
 		Assertions.assertThat(throwable1)
 				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("Message pattern cannot be null.");
+				.hasMessage("Message template cannot be null.");
 		Assertions.assertThat(throwable2)
 				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("Message pattern cannot be null.");
+				.hasMessage("Message template cannot be null.");
 	}
 
 	@Test
@@ -40,10 +40,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1)
+				TextResolver.resolve(messagePattern, arg1)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1)
 		);
 
 		// Then
@@ -65,8 +65,8 @@ class StringFormatterTest {
 		String messagePattern = "Hello, welcome to this test";
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern);
+		String formattedString = TextResolver.resolve(messagePattern);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -83,8 +83,8 @@ class StringFormatterTest {
 		Object arg2 = "nice";
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg1, arg2);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg1, arg2);
+		String formattedString = TextResolver.resolve(messagePattern, arg1, arg2);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg1, arg2);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -100,8 +100,8 @@ class StringFormatterTest {
 		Object arg = null;
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -123,8 +123,8 @@ class StringFormatterTest {
 		Object arg2 = v4;
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg1, arg2);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg1,  arg2);
+		String formattedString = TextResolver.resolve(messagePattern, arg1, arg2);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg1,  arg2);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -140,8 +140,8 @@ class StringFormatterTest {
 		Object arg = new String[]{"Ciao", "mamma!"};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -157,8 +157,8 @@ class StringFormatterTest {
 		Object arg = new char[]{'a', 'b', 'c'};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -174,8 +174,8 @@ class StringFormatterTest {
 		Object arg = new boolean[]{true, false};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -191,8 +191,8 @@ class StringFormatterTest {
 		Object arg = new byte[]{1, 2};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -208,8 +208,8 @@ class StringFormatterTest {
 		Object arg = new short[]{1, 2};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -225,8 +225,8 @@ class StringFormatterTest {
 		Object arg = new int[]{123, 456};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -242,8 +242,8 @@ class StringFormatterTest {
 		Object arg = new long[]{123, 456};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -259,8 +259,8 @@ class StringFormatterTest {
 		Object arg = new float[]{.1f, .2f};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -276,8 +276,8 @@ class StringFormatterTest {
 		Object arg = new double[]{10.1, 100.2};
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -297,8 +297,8 @@ class StringFormatterTest {
 		Object arg = "nice";
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg);
+		String formattedString = TextResolver.resolve(messagePattern, arg);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -315,8 +315,8 @@ class StringFormatterTest {
 		Object arg2 = "www.onlineresources.com/mytest.zip";
 
 		// When
-		String formattedString = StringFormatter.format(messagePattern, arg1, arg2);
-		CharSequence formattedCharSequence = StringFormatter.formatAsCharSequence(messagePattern, arg1, arg2);
+		String formattedString = TextResolver.resolve(messagePattern, arg1, arg2);
+		CharSequence formattedCharSequence = TextResolver.resolveAsCharSequence(messagePattern, arg1, arg2);
 
 		// Then
 		Assertions.assertThat(formattedString)
@@ -339,10 +339,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1, argIgnored1)
+				TextResolver.resolve(messagePattern, arg1, argIgnored1)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1, argIgnored1)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1, argIgnored1)
 		);
 
 		// Then
@@ -364,10 +364,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1, argIgnored1, argIgnored2)
+				TextResolver.resolve(messagePattern, arg1, argIgnored1, argIgnored2)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1, argIgnored1, argIgnored2)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1, argIgnored1, argIgnored2)
 		);
 
 		// Then
@@ -391,10 +391,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1, arg2, argIgnored1)
+				TextResolver.resolve(messagePattern, arg1, arg2, argIgnored1)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1, arg2, argIgnored1)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1, arg2, argIgnored1)
 		);
 
 		// Then
@@ -419,10 +419,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1, arg2, argIgnored1, argIgnored2)
+				TextResolver.resolve(messagePattern, arg1, arg2, argIgnored1, argIgnored2)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1, arg2, argIgnored1, argIgnored2)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1, arg2, argIgnored1, argIgnored2)
 		);
 
 		// Then
@@ -443,10 +443,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern)
+				TextResolver.resolve(messagePattern)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern)
+				TextResolver.resolveAsCharSequence(messagePattern)
 		);
 
 		// Then
@@ -465,10 +465,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern)
+				TextResolver.resolve(messagePattern)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern)
+				TextResolver.resolveAsCharSequence(messagePattern)
 		);
 
 		// Then
@@ -488,10 +488,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1)
+				TextResolver.resolve(messagePattern, arg1)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1)
 		);
 
 		// Then
@@ -512,10 +512,10 @@ class StringFormatterTest {
 
 		// When
 		Throwable throwable1 = Assertions.catchThrowable(() ->
-				StringFormatter.format(messagePattern, arg1, arg2)
+				TextResolver.resolve(messagePattern, arg1, arg2)
 		);
 		Throwable throwable2 = Assertions.catchThrowable(() ->
-				StringFormatter.formatAsCharSequence(messagePattern, arg1, arg2)
+				TextResolver.resolveAsCharSequence(messagePattern, arg1, arg2)
 		);
 
 		// Then

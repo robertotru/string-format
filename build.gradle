@@ -1,5 +1,6 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id "me.champeau.jmh" version "0.6.5"
 }
 
 group 'org.robertotru.stringformat'
@@ -14,17 +15,36 @@ java {
     targetCompatibility JavaVersion.VERSION_1_8
 }
 
-
-
-
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:2.24.5'
     testImplementation 'org.assertj:assertj-core:3.11.1'
-    testImplementation 'org.assertj:assertj-guava:3.2.0'
-    testImplementation 'org.assertj:assertj-swing-junit:3.8.0'
-    testImplementation 'org.awaitility:awaitility:3.1.6'
 
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+
+    implementation 'org.openjdk.jmh:jmh-core:1.32'
+    implementation 'org.openjdk.jmh:jmh-generator-annprocess:1.32'
+    jmh 'org.openjdk.jmh:jmh-core:1.32'
+    jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.32'
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+jmh {
+    timeUnit = 'ns' // Output time unit. Available time units are: [m, s, ms, us, ns].
+    iterations = 5 // Number of measurement iterations to do.
+    benchmarkMode = ['thrpt', 'avgt', 'ss'] // [Throughput/thrpt, AverageTime/avgt, SingleShotTime/ss]
+    batchSize = 3 // Batch size: number of benchmark method calls per operation. (some benchmark modes can ignore this setting)
+    fork = 2 // How many times to forks a single benchmark. Use 0 to disable forking altogether
+    operationsPerInvocation = 10 // Operations per invocation.
+    timeOnIteration = '1s' // Time to spend at each measurement iteration.
+    resultFormat = 'CSV' // Result format type (one of CSV, JSON, NONE, SCSV, TEXT)
+    warmup = '2s' // Time to spend at each warmup iteration.
+    warmupBatchSize = 5 // Warmup batch size: number of benchmark method calls per operation.
+    warmupIterations = 1 // Number of warmup iterations to do.
+    jmhVersion = '1.28' // Specifies JMH version
 }
